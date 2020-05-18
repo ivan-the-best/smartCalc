@@ -28,26 +28,55 @@ class Matrix extends React.Component {
     }
 
     render() {
-        const matrix = []; 
+        const matrix = [];
         for (let i = 0; i < this.state.m; i++) {
+            const el = [];
             for (let j = 0; j < this.state.n; j++) {
-                matrix.push(
-                    <TextInput
-                        style={{ width: '15%', marginLeft: '15%', paddingLeft: '5%', borderWidth: 1 }}
-                        placeholder={i.toString()}
-                        defaultValue=''
-                        key={{ i }.toString(), { j }.toString()}
+                el.push(
+                    <MatrixCell
+                        key={[i, j]}
+                        id={[i, j]}
                     />
                 )
             }
-            //matrix.push(
-            //    <View />
-            //)
+            matrix.push(
+                <View
+                    style={{ width: "10%", flexDirection: "column" }}
+                    key={i}
+                >
+                    {el}
+                </View>
+            )
         }
+        //console.log(matrix);
         return (
-            <View>
-                {matrix}  
+            <View style={{ flexDirection: "row" }}>
+                {matrix}
             </View>
+        )
+    }
+}
+
+class MatrixCell extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: 0
+        };
+        console.log(this.props.id);
+    }
+    componentDidMount() {
+
+    }
+    componentWillUnmount() {
+
+    }
+    render() {
+        return (
+            <TextInput style={{}}
+                onChangeText={value => this.setState({ value: value })}
+                value={this.state.value.toString()}
+            />
         )
     }
 }
@@ -77,45 +106,66 @@ class MatrixInput extends React.Component {
 
     render() {
         return (
-            <View >
-                <TextInput
-                    style={{ width: '50%',margin:'7%', backgroundColor: '#D8D8D8' }}
-                    placeholder={this.props.placeholderM}
-                    onChangeText={value => this.handleChangeM(value)}
-                    //defaultValue={this.props.defaultValueM}
-                    value={this.state.valueM}
-                />
-                <TextInput
-                    style={{ width: '50%', margin: '7%', backgroundColor: '#D8D8D8' }}
-                    placeholder={this.props.placeholderN}
-                    onChangeText={value => this.handleChangeN(value)}
-                    //defaultValue={this.props.defaultValueN}
-                    value={this.state.valueN}
-                />
-                
+            <View style={{ flexDirection: "row", width: "10%" }} >
+                <View style={{ /*backgroundColor: "blue",*/ flex: 0.5 }}>
+                    <TextInput
+                        style={{ width: '100%', margin: '5%', backgroundColor: '#FB8617' }}
+                        placeholder={this.props.placeholderM}
+                        onChangeText={value => this.handleChangeM(value)}
+                        value={this.state.valueM}
+                    />
+                </View>
+                <View style={{ /*backgroundColor: "red",*/ flex: 0.5 }}>
+                    <TextInput
+                        style={{ width: '100%', margin: '5%', backgroundColor: '#E54493' }}
+                        placeholder={this.props.placeholderN}
+                        onChangeText={value => this.handleChangeN(value)}
+                        value={this.state.valueN}
+                    />
+                </View>
+            </View>
+
+        )
+    }
+}
+
+class MatrixButtons extends React.Component {
+    render() {
+        return (
+            <View style={{ flexDirection: "row", width: "40%" }}>
+                <View style={{ flex: 0.2, margin: "0.5%" }}><Button title="+" color='#014A11' /></View>
+                <View style={{ flex: 0.2, margin: "0.5%" }}><Button title="-" color='#385A01'/></View>  
+                <View style={{ flex: 0.2, margin: "0.5%" }}><Button title="*" color='#97E815' /></View> 
+                <View style={{ flex: 0.2, margin: "0.5%" }}><Button title="/" color='#ACED43' /></View>
             </View>
         )
     }
 }
 
+
 export default function App() {
     return (
-        <Container >
+        <Container style={{ backgroundColor:"#11BE37" }} >
             <Content>
-                <Item style={{ backgroundColor: '#1a1aff', height: '10%'}}>
+                <Item style={{ backgroundColor: '#884404', height: '20%' }}>
                     <Text />
                 </Item>
-
-                
-
                 <Item>
                     <MatrixInput defaultValueN="3" defaultValueM="3" />
                 </Item>
                 <Item>
                     <Matrix m={3} n={3} />
                 </Item>
+                <Item>
+                    <Text>Choose action:</Text>
+                </Item>
+                <Item>
+                    <MatrixButtons />
+                </Item>
+                <Item> 
+                    <Text> В телефоне без этого не помещается </Text>  
+                </Item>
             </Content>
         </Container>
     )
 }
-
